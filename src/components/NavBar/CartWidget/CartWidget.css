@@ -1,0 +1,9 @@
+.carrito{
+    display: flex;
+    align-items: center;
+}
+
+.carrito-icono{
+    width: 40px;
+    height: 40px;
+}
