@@ -1,30 +1,35 @@
-import { useEffect, useState } from "react"
-import ItemCount from "../ItemCount/ItemCount"
-import ItemList from "../ItemList/ItemList"
-import "../ItemListContainer/ItemListContainer.css"
-import { mFetch } from "../../helpers/mFetch"
+import { useEffect, useState } from "react";
+import ItemList from "../ItemList/ItemList";
+import "../ItemListContainer/ItemListContainer.css";
+import { mFetch } from "../../helpers/mFetch";
+import { useParams } from "react-router-dom";
 
-const ItemListContainer = ( {greeting} ) => {
-  const [products, setProducts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+const ItemListContainer = ({ greeting }) => {
+  const { cid } = useParams();
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    mFetch()
-    .then (res => setProducts(res))
-    .catch(error => console.log(error))
-    .finally(() => setIsLoading(false))
-  }, [])
+    if (cid) {
+      mFetch()
+        .then((res) => setProducts(res.filter(product => product.category === cid)))
+        .catch((error) => console.log(error))
+        .finally(() => setIsLoading(false));
+    } else {
+      mFetch()
+        .then((res) => setProducts(res))
+        .catch((error) => console.log(error))
+        .finally(() => setIsLoading(false));
+    }
+  }, [cid]);
 
-  console.log(products)
   return (
-    <div className='contenedor'>
-      {greeting}
-      <ItemCount stock="3" initial="1"/>
-      {isLoading ? <h2>Loading products...</h2>
-      : <ItemList items={products}/>
-      }
+    <div className="d-flex justify-content-center align-items-strech">
+      {/* {greeting} */}
+      {/* <ItemCount stock="3" initial="1"/> */}
+      {isLoading ? <h2>Loading products...</h2> : <ItemList items={products} />}
     </div>
-  )
-}
+  );
+};
 
-export default ItemListContainer
+export default ItemListContainer;

@@ -4,22 +4,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+import useCounter from "../../hooks/useCounter";
 
 const ItemCount = ({stock, initial, onAdd}) => {
-  const [cant, setCant] = useState(parseInt(initial))
-
-  const increment = () => {
-    if (stock > cant){
-        setCant(cant +1)
-    }
-  }
-
-  const decrement = () =>{
-    if (cant > 1){
-        setCant(cant -1)
-    }
-  }
-
+  const {count, increment, decrement} = useCounter(initial, stock)
   return (
     <Form>
       <Row>
@@ -27,13 +15,13 @@ const ItemCount = ({stock, initial, onAdd}) => {
           <Button variant="outline-warning" onClick={decrement}>-</Button>
         </Col>
         <Col>
-          <p>{cant}</p>
+          <p>{count}</p>
         </Col>
         <Col>
           <Button variant="outline-warning" onClick={increment}>+</Button>
         </Col>
         <Col>
-          <Button variant="warning" onClick={onAdd}>Agregar</Button>
+          <Button variant="warning" onClick={onAdd}>Agregar al carrito</Button>
         </Col>
       </Row>
     </Form>
