@@ -1,13 +1,45 @@
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Item from '../Item/Item';
+import Button from "react-bootstrap/Button";
+import ItemCount from "../ItemCount/ItemCount";
+import { useContext, useState } from "react";
+import { CartContext } from "../../contexts/CartContext";
 
-const ItemDetail = ({ item }) => {
+export const ItemDetail = ({ item }) => {
+  const [goCart, setGoCart] = useState(false);
+  const { addToCart, cartList } = useContext(CartContext);
+  console.log('item Deteail ' + item)
+  
+  const onAdd = (cant) => {
+    console.log("cantidad seleccionada: ", cant);
+    addToCart({ item, cant });
+    setGoCart(true);
+  };
+
+  console.log(cartList)
+
   return (
-    <div>
-      <Item item={item} />
+    <div className="row">
+      <div className="col-6 mt-5 px-5">
+        <img src={item.pictureUrl} alt="product img" className="img-fluid" />
+      </div>
+      <div className="col-6 text-center px-5 my-auto">
+        <h1>{item.title}</h1>
+        <h3>$ {item.price}</h3>
+        <p>{item.description}</p>
+        {goCart ? (
+          <div className="btn-group">
+            <Button className="mx-2" variant="warning">
+              Seguir Comprando
+            </Button>
+            <Button className="mx-2" variant="warning">
+              Ir al Carrito
+            </Button>
+          </div>
+        ) : (
+          <ItemCount onAdd={onAdd} initial={1} stock={item.stock} />
+        )}
+      </div>
     </div>
   );
 };
 
-export default ItemDetail;
+
