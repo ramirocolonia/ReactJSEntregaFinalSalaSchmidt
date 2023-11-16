@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { mFetch } from "../../helpers/mFetch";
-import ItemDetail from "../ItemDetail/ItemDetail";
+import {ItemDetail} from "../ItemDetail/ItemDetail";
 import { useParams } from "react-router-dom";
 
 const ItemDetailContainer = () => {

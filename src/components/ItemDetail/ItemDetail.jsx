@@ -6,6 +6,8 @@ import { CartContext } from "../../contexts/CartContext";
 export const ItemDetail = ({ item }) => {
   const [goCart, setGoCart] = useState(false);
   const { addToCart, cartList } = useContext(CartContext);
+  
+  // aca probe mostrar el item por consola y trae obj... por eso en el on Add no me funciona...
   console.log('item Deteail ' + item)
   
   const onAdd = (cant) => {
@@ -14,7 +16,7 @@ export const ItemDetail = ({ item }) => {
     setGoCart(true);
   };
 
-  console.log(cartList)
+  console.log('Item DEtail ' + cartList)
 
   return (
     <div className="row">
