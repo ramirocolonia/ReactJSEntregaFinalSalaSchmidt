@@ -1,9 +1,10 @@
+import { memo } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardFooter from "react-bootstrap/CardFooter";
 import { Link } from "react-router-dom";
 
-const Item = ({ item }) => {
+const Item = memo(({ item }) => {
   return (
     <Card className="card w-25">
       <Card.Img className="card-img-top" src={item.pictureUrl} />
@@ -11,9 +12,9 @@ const Item = ({ item }) => {
         <Card.Title>
           <h3>{item.title}</h3>
         </Card.Title>
-        <Card.Text>
+        {/* <Card.Text> */}
           <h4>$ {item.price}</h4>
-        </Card.Text>
+        {/* </Card.Text> */}
 
         <CardFooter>
           <Link to={`/item/${item.id}`}>
@@ -25,6 +26,6 @@ const Item = ({ item }) => {
       </Card.Body>
     </Card>
   );
-};
+});
 
 export default Item;

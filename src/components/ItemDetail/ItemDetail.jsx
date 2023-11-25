@@ -1,22 +1,18 @@
-import Button from "react-bootstrap/Button";
 import ItemCount from "../ItemCount/ItemCount";
-import { useContext, useState } from "react";
-import { CartContext } from "../../contexts/CartContext";
+import { useState } from "react";
+import { useCartContext } from "../../contexts/CartContext";
+import { Link } from "react-router-dom";
 
 export const ItemDetail = ({ item }) => {
-  const [goCart, setGoCart] = useState(false);
-  const { addToCart, cartList } = useContext(CartContext);
-  
-  // aca probe mostrar el item por consola y trae obj... por eso en el on Add no me funciona...
-  console.log('item Deteail ' + item)
+  const [goCart, setGoCart] = useState(false)
+  const { addToCart } = useCartContext()
   
   const onAdd = (cant) => {
-    console.log("cantidad seleccionada: ", cant);
-    addToCart({ item, cant });
-    setGoCart(true);
-  };
-
-  console.log('Item DEtail ' + cartList)
+    console.log("cantidad seleccionada: ", cant)
+    addToCart({ ...item, cant })
+    setGoCart(true)
+    
+  }
 
   return (
     <div className="row">
@@ -29,12 +25,12 @@ export const ItemDetail = ({ item }) => {
         <p>{item.description}</p>
         {goCart ? (
           <div className="btn-group">
-            <Button className="mx-2" variant="warning">
+            <Link className="mx-2 btn btn-warning" to='/'>
               Seguir Comprando
-            </Button>
-            <Button className="mx-2" variant="warning">
+            </Link>
+            <Link className="mx-2 btn btn-warning" to='/cart'>
               Ir al Carrito
-            </Button>
+            </Link>
           </div>
         ) : (
           <ItemCount onAdd={onAdd} initial={1} stock={item.stock} />

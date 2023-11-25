@@ -6,8 +6,4 @@ import { initializeFirebase } from './firebase/config.js'
 
 initializeFirebase()
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
