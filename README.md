@@ -1,7 +1,7 @@
 # Nombre del proyecto: Fulbito Shop - Ramiro Sala
 ## Proyecto final de React Coderhouse
 
-Demo: https://chipper-scone-071d69.netlify.app/
+Demo: https://capable-eclair-36a7d6.netlify.app/
 
 ### React + Vite
 
