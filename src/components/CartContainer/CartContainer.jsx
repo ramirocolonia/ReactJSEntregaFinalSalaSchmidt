@@ -7,6 +7,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { useState } from "react";
+import { Form } from "react-bootstrap";
 
 import { useCartContext } from "../../contexts/CartContext";
 import { Loading } from "../Loading/Loading";
@@ -15,34 +16,56 @@ export const CartContainer = () => {
   const { cartList, resetCart, totalPrice, removeProduct } = useCartContext();
   const [orderId, setorderId] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    repeatEmail: "",
+  });
+
+  const handleOnChange = (evt) => {
+    setFormData({
+      ...formData,
+      [evt.target.name]: evt.target.value,
+    });
+  };
 
   const createOrder = () => {
-    const order = {};
-    order.buyer = {
-      name: "pepe el pistolero",
-      phone: "12345678",
-      email: "pepe@gmail.com",
-    };
-    order.items = cartList.map(({ id, price, title, cant, stock }) => ({
-      id: id,
-      price: price,
-      title: title,
-      cant: cant,
-      stock: stock,
-    }));
-    order.total = totalPrice();
-    order.date = new Date();
+    if (
+      formData.name != "" &&
+      formData.phone != "" &&
+      formData.email != "" &&
+      formData.repeatEmail != ""
+    ) {
+      if (formData.email === formData.repeatEmail) {
+        const order = {};
+        order.buyer = formData;
+        order.items = cartList.map(({ id, price, title, cant, stock }) => ({
+          id: id,
+          price: price,
+          title: title,
+          cant: cant,
+          stock: stock,
+        }));
+        order.total = totalPrice();
+        order.date = new Date();
 
-    const dbFirestore = getFirestore();
-    const queryCollection = collection(dbFirestore, "orders");
+        const dbFirestore = getFirestore();
+        const queryCollection = collection(dbFirestore, "orders");
 
-    addDoc(queryCollection, order)
-      .then(setIsLoading(true))
-      .then(({ id }) => setorderId(id))
-      .then(updateStock(order.items, dbFirestore))
-      .then(resetCart)
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false))
+        addDoc(queryCollection, order)
+          .then(setIsLoading(true))
+          .then(({ id }) => setorderId(id))
+          .then(updateStock(order.items, dbFirestore))
+          .then(resetCart)
+          .catch((error) => console.log(error))
+          .finally(() => setIsLoading(false));
+      }else{
+        alert("No coinciden las direcciones de correo")
+      }
+    }else{
+      alert("todos los campos del formulario son obligatorios")
+    }
   };
 
   const updateStock = (documents, db) => {
@@ -85,6 +108,52 @@ export const CartContainer = () => {
           <button className="btn btn-warning" onClick={resetCart}>
             Vaciar Carrito
           </button>
+          <Form className="mt-2">
+            <Form.Group className="mb-3">
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="ingrese nombre"
+                name="name"
+                required
+                onChange={handleOnChange}
+                value={formData.name}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Teléfono</Form.Label>
+              <Form.Control
+                type="phone"
+                placeholder="ingrese teléfono"
+                name="phone"
+                required
+                onChange={handleOnChange}
+                value={formData.phone}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Correo</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="ingrese correo eléctronico"
+                name="email"
+                required
+                onChange={handleOnChange}
+                value={formData.email}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Repetir Correo</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="ingrese nuevamente correo eléctronico"
+                name="repeatEmail"
+                required
+                onChange={handleOnChange}
+                value={formData.repeatEmail}
+              />
+            </Form.Group>
+          </Form>
           <button className="btn btn-warning" onClick={createOrder}>
             Finalizar Compra
           </button>
