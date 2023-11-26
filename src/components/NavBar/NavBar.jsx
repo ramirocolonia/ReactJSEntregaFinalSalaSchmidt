@@ -1,15 +1,15 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Link, NavLink } from "react-router-dom";
+
+import CartWidget from "./CartWidget/CartWidget";
+import { useCartContext } from "../../contexts/CartContext";
 
 import Logo from "../../assets/img/logo.png";
-import CartWidget from "./CartWidget/CartWidget";
-import { Link, NavLink } from "react-router-dom";
-import { useCartContext } from "../../contexts/CartContext";
 
 const NavBar = () => {
   const { totalProducts } = useCartContext()
-  console.log('totalProd ', totalProducts())
   return (
     <Navbar expand="lg" className="bg-warning" variant="dark">
       <Container>

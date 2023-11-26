@@ -12,10 +12,7 @@ const Item = memo(({ item }) => {
         <Card.Title>
           <h3>{item.title}</h3>
         </Card.Title>
-        {/* <Card.Text> */}
           <h4>$ {item.price}</h4>
-        {/* </Card.Text> */}
-
         <CardFooter>
           <Link to={`/item/${item.id}`}>
             <Button className="w-100" variant="warning">

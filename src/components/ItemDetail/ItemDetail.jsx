@@ -1,17 +1,16 @@
-import ItemCount from "../ItemCount/ItemCount";
 import { useState } from "react";
-import { useCartContext } from "../../contexts/CartContext";
 import { Link } from "react-router-dom";
+
+import { useCartContext } from "../../contexts/CartContext";
+import ItemCount from "../ItemCount/ItemCount";
 
 export const ItemDetail = ({ item }) => {
   const [goCart, setGoCart] = useState(false)
   const { addToCart } = useCartContext()
   
   const onAdd = (cant) => {
-    console.log("cantidad seleccionada: ", cant)
     addToCart({ ...item, cant })
     setGoCart(true)
-    
   }
 
   return (
@@ -39,5 +38,3 @@ export const ItemDetail = ({ item }) => {
     </div>
   );
 };
-
-
